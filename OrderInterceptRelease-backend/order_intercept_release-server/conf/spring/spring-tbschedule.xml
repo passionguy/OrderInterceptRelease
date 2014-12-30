@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- task config
+	<bean id="tbTask" class="com.dang.OrderTraceJob.shell.task.TbTask"/>
+	<bean id="singleTbTask" class="com.dang.OrderTraceJob.shell.task.TbSingleTask"/>
+	 -->
+	<bean id="tbOrderInterceptTask" class="com.dang.order.order_intercept_release.task.TbOrderInterceptTask"/>
+	<bean id="tbOrderReleaseTask" class="com.dang.order.order_intercept_release.task.TbOrderReleaseTask"/>
+	<!-- schedule factory config -->
+	<bean id="scheduleManagerFactory" class="com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory"
+		init-method="init">
+		<property name="zkConfig">
+           <map>
+              <entry key="zkConnectString" value="${tbschedule.zkConfig.zkConnectString}" />
+ 			  <entry key="rootPath" value="${tbschedule.zkConfig.rootPath}" />
+              <entry key="zkSessionTimeout" value="60000" />
+              <entry key="userName" value="${tbschedule.zkConfig.userName}" />
+              <entry key="password" value="${tbschedule.zkConfig.password}" />
+              <entry key="isCheckParentPath" value="true" />
+           </map>
+       </property>	
+	</bean>
+</beans>

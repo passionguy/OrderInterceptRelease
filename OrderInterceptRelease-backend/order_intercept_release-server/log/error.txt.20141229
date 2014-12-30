@@ -1,0 +1,105 @@
+
+2014-12-29 10:58:52 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161489 ms 
+
+2014-12-29 10:58:54 [ERROR] | com.taobao.pamirs.schedule.strategy.ManagerFactoryTimerTask | KeeperErrorCode = Directory not empty for /home/zookeeper_data/baseTaskType/tbOrderInterceptTask/tbOrderInterceptTask 
+org.apache.zookeeper.KeeperException$NotEmptyException: KeeperErrorCode = Directory not empty for /home/zookeeper_data/baseTaskType/tbOrderInterceptTask/tbOrderInterceptTask
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:125)
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:51)
+	at org.apache.zookeeper.ZooKeeper.delete(ZooKeeper.java:873)
+	at com.taobao.pamirs.schedule.zk.ZKTools.deleteTree(ZKTools.java:42)
+	at com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK.clearExpireTaskTypeRunningInfo(ScheduleDataManager4ZK.java:444)
+	at com.taobao.pamirs.schedule.taskmanager.TBScheduleManager.<init>(TBScheduleManager.java:113)
+	at com.taobao.pamirs.schedule.taskmanager.TBScheduleManagerStatic.<init>(TBScheduleManagerStatic.java:24)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.createStrategyTask(TBScheduleManagerFactory.java:146)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.reRunScheduleServer(TBScheduleManagerFactory.java:252)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.reRegisterManagerFactory(TBScheduleManagerFactory.java:194)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.refresh(TBScheduleManagerFactory.java:181)
+	at com.taobao.pamirs.schedule.strategy.ManagerFactoryTimerTask.run(TBScheduleManagerFactory.java:438)
+	at java.util.TimerThread.mainLoop(Unknown Source)
+	at java.util.TimerThread.run(Unknown Source)
+
+2014-12-29 10:58:56 [ERROR] | com.taobao.pamirs.schedule.strategy.ManagerFactoryTimerTask | KeeperErrorCode = Directory not empty for /home/zookeeper_data/baseTaskType/tbOrderReleaseTask/tbOrderReleaseTask 
+org.apache.zookeeper.KeeperException$NotEmptyException: KeeperErrorCode = Directory not empty for /home/zookeeper_data/baseTaskType/tbOrderReleaseTask/tbOrderReleaseTask
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:125)
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:51)
+	at org.apache.zookeeper.ZooKeeper.delete(ZooKeeper.java:873)
+	at com.taobao.pamirs.schedule.zk.ZKTools.deleteTree(ZKTools.java:42)
+	at com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK.clearExpireTaskTypeRunningInfo(ScheduleDataManager4ZK.java:444)
+	at com.taobao.pamirs.schedule.taskmanager.TBScheduleManager.<init>(TBScheduleManager.java:113)
+	at com.taobao.pamirs.schedule.taskmanager.TBScheduleManagerStatic.<init>(TBScheduleManagerStatic.java:24)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.createStrategyTask(TBScheduleManagerFactory.java:146)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.reRunScheduleServer(TBScheduleManagerFactory.java:252)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.reRegisterManagerFactory(TBScheduleManagerFactory.java:194)
+	at com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory.refresh(TBScheduleManagerFactory.java:181)
+	at com.taobao.pamirs.schedule.strategy.ManagerFactoryTimerTask.run(TBScheduleManagerFactory.java:438)
+	at java.util.TimerThread.mainLoop(Unknown Source)
+	at java.util.TimerThread.run(Unknown Source)
+
+2014-12-29 12:08:52 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161630 ms 
+
+2014-12-29 12:45:48 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161707 ms 
+
+2014-12-29 12:45:49 [ERROR] | com.dang.order.order_intercept_release.server.Main |  [DUBBO] [source error] getAllRuleField(int,int) not found in com.dang.order.order_intercept_release.api.RuleFieldService, dubbo version: 2.8.0, current host: 192.168.99.66 
+java.lang.RuntimeException: [source error] getAllRuleField(int,int) not found in com.dang.order.order_intercept_release.api.RuleFieldService
+	at com.alibaba.dubbo.common.bytecode.ClassGenerator.toClass(ClassGenerator.java:354)
+	at com.alibaba.dubbo.common.bytecode.ClassGenerator.toClass(ClassGenerator.java:293)
+	at com.alibaba.dubbo.common.bytecode.Wrapper.makeWrapper(Wrapper.java:346)
+	at com.alibaba.dubbo.common.bytecode.Wrapper.getWrapper(Wrapper.java:89)
+	at com.alibaba.dubbo.config.ServiceConfig.doExportUrlsFor1Protocol(ServiceConfig.java:430)
+	at com.alibaba.dubbo.config.ServiceConfig.doExportUrls(ServiceConfig.java:285)
+	at com.alibaba.dubbo.config.ServiceConfig.doExport(ServiceConfig.java:246)
+	at com.alibaba.dubbo.config.ServiceConfig.export(ServiceConfig.java:145)
+	at com.alibaba.dubbo.config.spring.ServiceBean.onApplicationEvent(ServiceBean.java:109)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:96)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:334)
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:948)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
+	at org.springframework.context.support.FileSystemXmlApplicationContext.<init>(FileSystemXmlApplicationContext.java:140)
+	at org.springframework.context.support.FileSystemXmlApplicationContext.<init>(FileSystemXmlApplicationContext.java:84)
+	at com.dang.order.order_intercept_release.server.container.DangSpringContainer.getSpringContext(DangSpringContainer.java:72)
+	at com.dang.order.order_intercept_release.server.container.DangSpringContainer.start(DangSpringContainer.java:43)
+	at com.dang.order.order_intercept_release.server.Main.main(Main.java:70)
+Caused by: javassist.CannotCompileException: [source error] getAllRuleField(int,int) not found in com.dang.order.order_intercept_release.api.RuleFieldService
+	at javassist.CtNewMethod.make(CtNewMethod.java:79)
+	at javassist.CtNewMethod.make(CtNewMethod.java:45)
+	at com.alibaba.dubbo.common.bytecode.ClassGenerator.toClass(ClassGenerator.java:322)
+	... 17 more
+Caused by: compile error: getAllRuleField(int,int) not found in com.dang.order.order_intercept_release.api.RuleFieldService
+	at javassist.compiler.TypeChecker.atMethodCallCore(TypeChecker.java:723)
+	at javassist.compiler.TypeChecker.atCallExpr(TypeChecker.java:688)
+	at javassist.compiler.JvstTypeChecker.atCallExpr(JvstTypeChecker.java:157)
+	at javassist.compiler.ast.CallExpr.accept(CallExpr.java:46)
+	at javassist.compiler.JvstTypeChecker.atCastToWrapper(JvstTypeChecker.java:126)
+	at javassist.compiler.JvstTypeChecker.atCastExpr(JvstTypeChecker.java:98)
+	at javassist.compiler.ast.CastExpr.accept(CastExpr.java:55)
+	at javassist.compiler.CodeGen.doTypeCheck(CodeGen.java:242)
+	at javassist.compiler.CodeGen.compileExpr(CodeGen.java:229)
+	at javassist.compiler.CodeGen.atReturnStmnt2(CodeGen.java:598)
+	at javassist.compiler.JvstCodeGen.atReturnStmnt(JvstCodeGen.java:425)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:363)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:351)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.CodeGen.atIfStmnt(CodeGen.java:391)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:355)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:351)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.MemberCodeGen.atTryStmnt(MemberCodeGen.java:204)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:367)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.CodeGen.atStmnt(CodeGen.java:351)
+	at javassist.compiler.ast.Stmnt.accept(Stmnt.java:50)
+	at javassist.compiler.CodeGen.atMethodBody(CodeGen.java:292)
+	at javassist.compiler.CodeGen.atMethodDecl(CodeGen.java:274)
+	at javassist.compiler.ast.MethodDecl.accept(MethodDecl.java:44)
+	at javassist.compiler.Javac.compileMethod(Javac.java:169)
+	at javassist.compiler.Javac.compile(Javac.java:95)
+	at javassist.CtNewMethod.make(CtNewMethod.java:74)
+	... 19 more
+
+2014-12-29 12:46:06 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161708 ms 
+
+2014-12-29 12:48:01 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161711 ms 
+
+2014-12-29 15:01:50 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 161983 ms 

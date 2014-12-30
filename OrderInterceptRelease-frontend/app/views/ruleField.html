@@ -1,0 +1,79 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading ">规则字段<div class="pull-right"><a class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#modal_dialog">新增</a></div></div>
+
+<table class="table">
+  <thead><th>表名</th><th>字段名称</th><th>字段描述</th><th>字段类型</th><th>操作</th></thead>
+  <tbody ng-repeat="field in fields">
+    <tr>
+      <td>{{field.fieldTable | tableName}}</td>
+      <td>{{field.fieldName}}</td>
+      <td>{{field.fieldDesc}}</td>
+      <td>{{field.fieldType | fieldType}}</td>
+      <td><a class="glyphicon glyphicon-edit" ng-click="update(field)" data-toggle="modal" data-target="#modal_dialog"/><a class="glyphicon glyphicon-remove" ng-click="remove($index)"/></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="modal fade" id="modal_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">新增拦截规则字段</h4>
+      </div>
+      <div class="modal-body" id="modal_dialog_content">
+        <form id="editFieldForm" class="form-horizontal" role="form">
+           <div class="form-group">
+            <label for="field_table" class="col-sm-2 control-label">表名</label>
+
+            <div class="col-sm-10">
+              <select ng-model="field.fieldTable" class="form-control" id="field_table">
+                <option ng-repeat="table in tables" value="{{table.value}}">
+                  {{table.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="field_desc" class="col-sm-2 control-label">字段描述</label>
+
+            <div class="col-sm-10">
+              <input ng-model="field.fieldDesc" type="text" class="form-control" id="field_desc" placeholder="例如：下单时间">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="field_name" class="col-sm-2 control-label">字段名称</label>
+
+            <div class="col-sm-10">
+              <input  ng-model="field.fieldName" type="text" class="form-control" id="field_name" placeholder="例如：order_creation_date">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="field_type" class="col-sm-2 control-label">字段类型</label>
+            <div class="col-sm-10">
+              <select ng-model="field.fieldType" class="form-control" id="field_type">
+                <option ng-repeat="type in field_types" value="{{type.value}}">
+                  {{type.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" ng-show="field.fieldType=='enums'">
+            <label for="field_type" class="col-sm-2 control-label">枚举值</label>
+            <div class="col-sm-10">
+              <textarea ng-model="field.enumValues" rows=5 cols=50></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="modal_btn_ok" type="button" class="btn btn-primary" data-dismiss="modal"  ng-click="save(field)">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="gridStyle" ng-grid="myOptions"></div> -->

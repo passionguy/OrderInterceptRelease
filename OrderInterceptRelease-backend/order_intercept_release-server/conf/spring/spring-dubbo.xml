@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">	
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="intercep-release-rpc-services" />
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="${zookeeper.url}" />
+	
+	<dubbo:protocol name="rest" port="8083" threads="500" contextpath="services" extension="com.dang.order.order_intercept_release.service.impl.CORSFilter"/>
+	
+	<dubbo:service interface="com.dang.order.order_intercept_release.api.RuleService" ref="ruleService" protocol="rest"/>
+	<dubbo:service interface="com.dang.order.order_intercept_release.api.RuleFieldService" ref="ruleFieldService" protocol="rest"/>
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:reference id="orderQueueService" interface="com.dang.order.order_wms_base.api.order_queue.OrderQueueService" protocol="dubbo" />
+	<dubbo:reference id="orderDispatchQueueService" interface="com.dang.order.order_wms_base.api.order_queue.OrderDispatchQueueService" protocol="dubbo" />
+	<dubbo:reference id="ordersService" interface="com.dang.order.OrderBase.api.OrdersService" protocol="dubbo" />	
+</beans>

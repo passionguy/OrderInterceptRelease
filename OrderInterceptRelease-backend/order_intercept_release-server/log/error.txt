@@ -1,0 +1,4 @@
+
+2014-12-30 15:27:18 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 165005 ms 
+
+2014-12-30 16:27:16 [ERROR] | com.taobao.pamirs.schedule.zk.ScheduleDataManager4ZK | 请注意，Zookeeper服务器时间与本地时间相差 ： 165126 ms 

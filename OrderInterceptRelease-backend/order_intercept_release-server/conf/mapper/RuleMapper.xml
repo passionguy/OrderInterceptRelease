@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.dang.order.order_intercept_release.dto.Rule">
+
+	<resultMap id="RM_Rule"
+		type="com.dang.order.order_intercept_release.dto.Rule">
+		<result property="id" column="id" jdbcType="INTEGER" />
+		<result property="ruleName" column="rule_name" jdbcType="LONGVARCHAR" />
+		<result property="ruleJson" column="rule_json" jdbcType="LONGVARCHAR" />
+		<result property="ruleSql" column="rule_sql" jdbcType="LONGVARCHAR" />
+		<result property="ruleType" column="rule_type" jdbcType="TINYINT" />
+		<result property="effectTimeStart" column="effect_time_start"
+			jdbcType="TIMESTAMP" />
+		<result property="effectTimeEnd" column="effect_time_end"
+			jdbcType="TIMESTAMP" />
+		<result property="creationDate" column="creation_date"
+			jdbcType="TIMESTAMP" />
+		<result property="lastModifyDate" column="last_modify_date"
+			jdbcType="TIMESTAMP" />
+		<result property="creator" column="creator" jdbcType="INTEGER" />
+		<result property="lastModifier" column="last_modifier"
+			jdbcType="INTEGER" />
+		<result property="checkStatus" column="check_status" jdbcType="TINYINT" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,rule_name,rule_json,rule_sql,rule_type,effect_time_start,effect_time_end,creation_date,last_modify_date,creator,last_modifier,check_status
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO rule
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ruleName != null and ruleName != ''">
+				rule_name ,
+			</if>
+			<if test="ruleJson != null and ruleJson != ''">
+				rule_json ,
+			</if>
+			<if test="ruleSql != null and ruleSql != ''">
+				rule_sql ,
+			</if>
+			<if test="ruleType != null">
+				rule_type ,
+			</if>
+			<if test="effectTimeStart != null">
+				effect_time_start ,
+			</if>
+			<if test="effectTimeEnd != null">
+				effect_time_end ,
+			</if>
+				creation_date ,
+				last_modify_date ,
+			<if test="creator != null">
+				creator ,
+			</if>
+			<if test="lastModifier != null">
+				last_modifier ,
+			</if>
+			<if test="checkStatus != null">
+				check_status
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="ruleName != null and ruleName != ''">
+				#{ruleName,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleJson != null and ruleJson != ''">
+				#{ruleJson,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleSql != null and ruleSql != ''">
+				#{ruleSql,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleType != null">
+				#{ruleType,jdbcType=TINYINT} ,
+			</if>
+			<if test="effectTimeStart != null">
+				#{effectTimeStart,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="effectTimeEnd != null">
+				#{effectTimeEnd,jdbcType=TIMESTAMP} ,
+			</if>
+				now() ,
+				now() ,
+			<if test="creator != null">
+				#{creator,jdbcType=INTEGER} ,
+			</if>
+			<if test="lastModifier != null">
+				#{lastModifier,jdbcType=INTEGER} ,
+			</if>
+			<if test="checkStatus != null">
+				#{checkStatus,jdbcType=TINYINT}
+			</if>
+		</trim>
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+
+	<sql id="update_sql">
+		<set>
+			<if test="ruleName != null and ruleName != ''">
+				rule_name = #{ruleName,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleJson != null and ruleJson != ''">
+				rule_json = #{ruleJson,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleSql != null and ruleSql != ''">
+				rule_sql = #{ruleSql,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="ruleType != null">
+				rule_type = #{ruleType,jdbcType=TINYINT} ,
+			</if>
+			<if test="effectTimeStart != null">
+				effect_time_start = #{effectTimeStart,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="effectTimeEnd != null">
+				effect_time_end = #{effectTimeEnd,jdbcType=TIMESTAMP} ,
+			</if>
+				last_modify_date = now() ,
+			<if test="creator != null">
+				creator = #{creator,jdbcType=INTEGER} ,
+			</if>
+			<if test="lastModifier != null">
+				last_modifier = #{lastModifier,jdbcType=INTEGER} ,
+			</if>
+			<if test="checkStatus != null">
+				check_status = #{checkStatus,jdbcType=TINYINT}
+			</if>
+		</set>
+	</sql>
+
+	<update id="update">
+		UPDATE rule
+		<include refid="update_sql" />
+		WHERE
+		id = #{id}
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM rule WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="RM_Rule">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM rule 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findCondition_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="id != null">
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="ruleName != null and ruleName !=''">
+				AND rule_name = #{ruleName,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="ruleJson != null and ruleJson !=''">
+				AND rule_json = #{ruleJson,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="ruleSql != null and ruleSql !=''">
+				AND rule_sql = #{ruleSql,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="ruleType != null">
+				AND rule_type = #{ruleType,jdbcType=TINYINT}
+			</if>
+			<if test="effectTimeStartBegin != null">
+				AND effect_time_start >= #{effectTimeStartBegin,jdbcType=TIMESTAMP}
+			</if>
+			<if test="effectTimeStartEnd != null">
+				AND effect_time_start &lt;= #{effectTimeStartEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="effectTimeEndBegin != null">
+				AND effect_time_end >= #{effectTimeEndBegin,jdbcType=TIMESTAMP}
+			</if>
+			<if test="effectTimeEndEnd != null">
+				AND effect_time_end &lt;= #{effectTimeEndEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="creationDateBegin != null">
+				AND creation_date >= #{creationDateBegin,jdbcType=TIMESTAMP}
+			</if>
+			<if test="creationDateEnd != null">
+				AND creation_date &lt;= #{creationDateEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="lastModifyDateBegin != null">
+				AND last_modify_date >= #{lastModifyDateBegin,jdbcType=TIMESTAMP}
+			</if>
+			<if test="lastModifyDateEnd != null">
+				AND last_modify_date &lt;= #{lastModifyDateEnd,jdbcType=TIMESTAMP}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator,jdbcType=INTEGER}
+			</if>
+			<if test="lastModifier != null">
+				AND last_modifier = #{lastModifier,jdbcType=INTEGER}
+			</if>
+			<if test="checkStatus != null">
+				AND check_status = #{checkStatus,jdbcType=TINYINT}
+			</if>
+		</where>
+	</sql>
+
+	<select id="findCondition_count" resultType="long">
+		SELECT count(1) FROM rule
+		<include refid="findCondition_where" />
+	</select>
+
+	<!-- 分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页 因为分页查询将传 offset,pageSize,lastRows 
+		三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现 -->
+	<select id="findCondition" resultMap="RM_Rule">
+		SELECT
+		<include refid="columns" />
+		FROM rule
+		<include refid="findCondition_where" />
+	</select>
+
+	<select id="findAll" resultMap="RM_Rule">
+		SELECT
+		<include refid="columns" />
+		FROM rule
+	</select>
+</mapper>
+

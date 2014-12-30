@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.dang.order.order_intercept_release.dto.RuleField">
+
+	<resultMap id="RM_RuleField"
+		type="com.dang.order.order_intercept_release.dto.RuleField">
+		<result property="id" column="id" jdbcType="INTEGER" />
+		<result property="fieldTable" column="field_table" jdbcType="LONGVARCHAR" />
+		<result property="fieldName" column="field_name" jdbcType="LONGVARCHAR" />
+		<result property="fieldDesc" column="field_desc" jdbcType="LONGVARCHAR" />
+		<result property="fieldType" column="field_type" jdbcType="LONGVARCHAR" />
+		<result property="enumValues" column="enum_values" jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,field_table,field_name,field_desc,field_type,enum_values
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO rule_field
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id ,
+			</if>
+			<if test="fieldTable != null and fieldTable != ''">
+				field_table ,
+			</if>
+			<if test="fieldName != null and fieldName != ''">
+				field_name ,
+			</if>
+			<if test="fieldDesc != null and fieldDesc != ''">
+				field_desc ,
+			</if>
+			<if test="fieldType != null and fieldType != ''">
+				field_type ,
+			</if>
+			<if test="enumValues != null and enumValues != ''">
+				enum_values
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER} ,
+			</if>
+			<if test="fieldTable != null and fieldTable != ''">
+				#{fieldTable,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldName != null and fieldName != ''">
+				#{fieldName,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldDesc != null and fieldDesc != ''">
+				#{fieldDesc,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldType != null and fieldType != ''">
+				#{fieldType,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="enumValues != null and enumValues != ''">
+				#{enumValues,jdbcType=LONGVARCHAR}
+			</if>
+		</trim>
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+
+	<sql id="update_sql">
+		<set>
+			<if test="fieldTable != null and fieldTable != ''">
+				field_table = #{fieldTable,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldName != null and fieldName != ''">
+				field_name = #{fieldName,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldDesc != null and fieldDesc != ''">
+				field_desc = #{fieldDesc,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="fieldType != null and fieldType != ''">
+				field_type = #{fieldType,jdbcType=LONGVARCHAR} ,
+			</if>
+			<if test="enumValues != null and enumValues != ''">
+				enum_values = #{enumValues,jdbcType=LONGVARCHAR}
+			</if>
+		</set>
+	</sql>
+
+	<update id="update">
+		UPDATE rule_field
+		<include refid="update_sql" />
+		WHERE
+		id = #{id}
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM rule_field WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="RM_RuleField">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM rule_field 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findCondition_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="id != null">
+				AND id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="fieldTable != null and fieldTable !=''">
+				AND field_table = #{fieldTable,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="fieldName != null and fieldName !=''">
+				AND field_name = #{fieldName,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="fieldDesc != null and fieldDesc !=''">
+				AND field_desc = #{fieldDesc,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="fieldType != null and fieldType !=''">
+				AND field_type = #{fieldType,jdbcType=LONGVARCHAR}
+			</if>
+			<if test="enumValues != null and enumValues !=''">
+				AND enum_values = #{enumValues,jdbcType=LONGVARCHAR}
+			</if>
+		</where>
+	</sql>
+
+	<select id="findCondition_count" resultType="long">
+		SELECT count(1) FROM rule_field
+		<include refid="findCondition_where" />
+	</select>
+
+	<!-- 分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页 因为分页查询将传 offset,pageSize,lastRows 
+		三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现 -->
+	<select id="findCondition" resultMap="RM_RuleField">
+		SELECT
+		<include refid="columns" />
+		FROM rule_field
+		<include refid="findCondition_where" />
+	</select>
+	<select id="findAll" resultMap="RM_RuleField">
+		SELECT
+		<include refid="columns" />
+		FROM rule_field
+	</select>
+
+</mapper>
+

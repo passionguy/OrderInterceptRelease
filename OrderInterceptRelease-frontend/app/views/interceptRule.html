@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading ">拦截规则列表<div class="pull-right"><a class="glyphicon glyphicon-plus" ng-href="#/queryBuilder?ruleType=1">新增</a></div></div>
+
+  <table class="table">
+    <thead><th>规则名称</th><th>生效时间</th><th>结束时间</th><th>规则创建时间</th><th>审核状态</th><th>操作</th></thead>
+    <tbody ng-repeat="interceptRule in interceptRules">
+      <tr>
+        <td>{{interceptRule.ruleName}}</td>
+        <td>{{interceptRule.effectTimeStart | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{interceptRule.effectTimeEnd | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{interceptRule.creationDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{interceptRule.checkStatus | checkStatus}}</td>
+        <td><div><a class="glyphicon glyphicon-edit" ng-click="edit(interceptRule)"/></div><div ng-if="(!interceptRule.checkStatus || interceptRule.checkStatus==0)"><a class="glyphicon glyphicon-check" ng-click="check(interceptRule)"/></div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading ">释放规则列表<div class="pull-right"><a class="glyphicon glyphicon-plus" ng-href="#/queryBuilder?ruleType=2">新增</a></div></div>
+
+  <table class="table">
+    <thead><th>规则名称</th><th>生效时间</th><th>结束时间</th><th>规则创建时间</th><th>审核状态</th><th>操作</th></thead>
+    <tbody ng-repeat="releaseRule in releaseRules">
+      <tr>
+        <td>{{releaseRule.ruleName}}</td>
+        <td>{{releaseRule.effectTimeStart | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{releaseRule.effectTimeEnd | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{releaseRule.creationDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{interceptRule.checkStatus | checkStatus}}</td>
+        <td><div><a data-original-title="Copy to clipboard" class="glyphicon glyphicon-edit" ng-click="edit(releaseRule)"/></div><div ng-if="(!releaseRule.checkStatus || releaseRule.checkStatus==0)"><a class="glyphicon glyphicon-check" ng-click="check(releaseRule)"/></div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

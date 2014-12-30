@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx" 
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+					       http://www.springframework.org/schema/context 
+					       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+						   http://www.springframework.org/schema/aop 
+						   http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+					       http://www.springframework.org/schema/tx 
+					       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+					       http://www.springframework.org/schema/jee 
+					       http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+						   http://www.springframework.org/schema/jdbc 
+						   http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd 
+					       http://www.springframework.org/schema/mvc
+					       http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+	
+	<context:annotation-config />
+	<tx:annotation-driven/> 
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="conf/mapper/**Mapper.xml" />
+		<property name="configLocation" value="conf/Mybatis-config.xml" />  
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean> 
+        
+	<!-- 创建数据源 -->
+	<bean id="orderInterceptReleaseDs_RW"	class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.order_intercept_release.driver}" />
+		<property name="url" value="${jdbc.order_intercept_release.url}" />
+		<property name="username" value="${jdbc.order_intercept_release.username}" />
+		<property name="password" value="${jdbc.order_intercept_release.password}" />
+		<property name="connectionProperties" value=""></property>
+		<!-- Connection Pooling Info -->
+		<property name="initialSize" value="0" /><!--链接池初始化时初始化的连接数-->
+		<property name="maxActive" value="20" /><!--链接池最大连接数-->
+		<property name="maxIdle" value="8" /><!--链接池最大空闲连接数，超过回收-->
+		<property name="minIdle" value="8" /><!--链接池最小空闲连接数，低于创建-->
+		<property name="maxWait" value="60000" /><!--链接池没有可用连接时，最大等待时间-->
+		<property name="minEvictableIdleTimeMillis" value="18000000" /><!--连接池中连接，在时间段内一直空闲， 被逐出连接池的时间-->
+		<property name="removeAbandoned" value="true" /><!--是否链接不够用时回收超过removeAbandonedTimeout的连接-->
+		<property name="removeAbandonedTimeout" value="3000000" /><!--超过时间限制，回收没有用(废弃)的连接-->	  
+		
+		<!-- Connection Valid Info -->
+		<property name="validationQuery" value="select NOW()" /><!--检查数据库连接SQL语句-->	
+		<property name="validationQueryTimeout" value="1"></property>  	
+		<property name="testOnBorrow" value="false" /><!--是否创建时检查-->
+		<property name="testOnReturn" value="false" /><!--是否创建后检查-->
+		<property name="testWhileIdle" value="true" /><!--起了一个Evict的TimerTask定时线程进行控制(可通过设置参数timeBetweenEvictionRunsMillis>0),定时对线程池中的链接进行validateObject校验，对无效的链接进行关闭后，会调用ensureMinIdle，适当建立链接保证最小的minIdle连接数。-->
+		<property name="timeBetweenEvictionRunsMillis" value="30000" /><!--检查线运行时间间隔-->
+		<property name="numTestsPerEvictionRun" value="20" /><!--每次检查链接的数量-->	
+	</bean>
+	
+	<bean id="dataSource" class="com.dang.rocket.dao.datasource.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">				
+				<entry key="orderInterceptReleaseDs_RW" value-ref="orderInterceptReleaseDs_RW" />	
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="orderInterceptReleaseDs_RW" />
+	</bean>
+	
+	<!-- 事务管理器 --> 
+
+	<tx:annotation-driven/>  
+	<context:component-scan base-package="com.dang"/> 
+
+    <bean id="transactionManager"  
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />          
+    </bean>  
+</beans>
